@@ -45,10 +45,11 @@ public class SocketClient {
         out.close();
         clientSocket.close();
     }
-/**
- * http port - 80
- * https port - 443
- * **/
+
+    /**
+     * http port - 80
+     * https port - 443
+     **/
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter url:");

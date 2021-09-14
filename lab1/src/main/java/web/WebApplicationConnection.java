@@ -33,15 +33,15 @@ public class WebApplicationConnection {
 
         }
     }
-    public void print(URL url ) throws IOException {
-        HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+
+    public void print(URL url) throws IOException {
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.connect();
         Map<String, List<String>> headerFields = conn.getHeaderFields();
         System.out.println(headerFields.toString());
         conn.disconnect();
     }
-
 
 
     public void stopConnection() throws IOException {
