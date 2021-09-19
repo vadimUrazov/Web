@@ -39,6 +39,7 @@ public class WebApplicationConnection {
         conn.setRequestMethod("GET");
         conn.connect();
         Map<String, List<String>> headerFields = conn.getHeaderFields();
+        System.out.println("Headers:");
         System.out.println(headerFields.toString());
         conn.disconnect();
     }

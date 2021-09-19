@@ -1,66 +1,59 @@
 package web;
 
 import java.io.*;
-import java.net.HttpURLConnection;
 import java.net.Socket;
-import java.net.URL;
-import java.util.List;
-import java.util.Map;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class SocketClient {
-    private Socket clientSocket;
-    private PrintWriter out;
-    private BufferedReader in;
 
-    public void startConnection(String url, int port) throws IOException {
-        clientSocket = new Socket(url, port);
-        out = new PrintWriter(new FileOutputStream("socket.txt"), true);
-        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+    public  void send(String[] hostAndResource )  {
 
-    }
+        String host = hostAndResource[0];
+        String resource = "/";
+        if (hostAndResource.length == 2)
+            resource += hostAndResource[1];
 
-    public void send() throws IOException {
-        String inputLine;
-        while ((inputLine = in.readLine()) != null) {
-            if (".".equals(inputLine)) {
-                break;
+
+        try (Socket socket = new Socket(host, 80)) {
+            socket.getOutputStream().write((
+                    "GET " + resource + " HTTP/1.1\n" +
+                            "Host: " + host + ":80\n" +
+                            "User-Agent: Mozilla/5.0 (Ubuntu; Intel Linux OS X 20.4) " +
+                            "AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Safari/605.1.15\n\n"
+            ).getBytes());
+
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+                int remainingContentLength = -1;
+                System.out.println("Headers:");
+                String line;
+                while (!(line = reader.readLine()).isEmpty()) {
+                    if (line.toLowerCase().startsWith("content-length"))
+                        remainingContentLength = Integer.parseInt(line.split(" ")[1]);
+
+                    System.out.println(line);
+                }
+
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter("socket.txt", StandardCharsets.UTF_8))) {
+                    while (remainingContentLength > 0) {
+                        writer.write(reader.read());
+                        remainingContentLength--;
+                    }
+                }
             }
-            out.println(inputLine);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
 
-    public void print(URL url) throws IOException {
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.connect();
-        Map<String, List<String>> headerFields = conn.getHeaderFields();
-        System.out.println(headerFields.toString());
-        conn.disconnect();
-    }
 
-    public void stopConnection() throws IOException {
-        in.close();
-        out.close();
-        clientSocket.close();
-    }
-
-    /**
-     * http port - 80
-     * https port - 443
-     **/
-    public static void main(String[] args) throws IOException {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter url:");
-        String inputUrl = scanner.next();
-        URL url = new URL(inputUrl);
-
+    public static void main(String[] args)  {
         SocketClient socketClient = new SocketClient();
-        socketClient.startConnection(url.getHost(), 80);
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the address");
+        String[] hostAndResource = scanner.next().split("/", 2);
 
-        socketClient.send();
-        socketClient.print(url);
-        socketClient.stopConnection();
+        socketClient.send(hostAndResource);
     }
 }
