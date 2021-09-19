@@ -19,7 +19,7 @@ public class SocketClient {
             socket.getOutputStream().write((
                     "GET " + resource + " HTTP/1.1\n" +
                             "Host: " + host + ":80\n" +
-                            "User-Agent: Mozilla/5.0 (Ubuntu; Intel Linux OS X 20.4) " +
+                            "User-Agent: Chrome (Ubuntu; Intel Linux OS X 20.4) " +
                             "AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Safari/605.1.15\n\n"
             ).getBytes());
 
