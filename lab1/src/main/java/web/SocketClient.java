@@ -1,13 +1,15 @@
 package web;
 
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.Socket;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class SocketClient {
 
-    public  void send(String[] hostAndResource )  {
+    public void send(String[] hostAndResource) {
 
         String host = hostAndResource[0];
         String resource = "/";
@@ -34,7 +36,7 @@ public class SocketClient {
                     System.out.println(line);
                 }
 
-                try (BufferedWriter writer = new BufferedWriter(new FileWriter("socket.txt", StandardCharsets.UTF_8))) {
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter("sock.txt", StandardCharsets.UTF_8))) {
                     while (remainingContentLength > 0) {
                         writer.write(reader.read());
                         remainingContentLength--;
@@ -48,11 +50,16 @@ public class SocketClient {
     }
 
 
-    public static void main(String[] args)  {
+    public static void main(String[] args) throws MalformedURLException {
         SocketClient socketClient = new SocketClient();
+        String address;
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter the address");
-        String[] hostAndResource = scanner.next().split("/", 2);
+        System.out.println("Enter the url");
+        address = scanner.next();
+
+        URL url = new URL(address);
+
+        String[] hostAndResource = url.getHost().split("/", 2);
 
         socketClient.send(hostAndResource);
     }
