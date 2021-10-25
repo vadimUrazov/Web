@@ -1,0 +1,224 @@
+html {
+    height: 100%;
+}
+
+body {
+    background-color: lightblue;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    color: darkred;
+    padding: 0 1rem;
+    font-family: sans-serif, arial;
+    font-weight: 400;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+}
+
+header h1 {
+    background-color: lightcyan;
+    padding: 2px 500px;
+    position: fixed;
+    white-space: nowrap;
+
+}
+
+nav {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    justify-content: flex-start;
+}
+
+nav span {
+    position: fixed;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    white-space: nowrap;
+}
+
+nav a {
+    margin: 0 .5rem;
+    padding: 1.6rem 2rem;
+    text-decoration: none;
+    color: #000000;
+}
+
+nav a:first-child {
+    margin-left: 0;
+}
+
+nav a:last-child {
+    margin-right: 0;
+}
+
+.current-page-link {
+    background-color: #f0f0f0;
+    padding-bottom: 1.4rem;
+    border-bottom: .2rem solid #292929;
+}
+
+
+main {
+    flex-grow: 1;
+    margin: 4rem 10rem 0;
+}
+
+h1 {
+
+    color: blue;
+}
+
+h2 {
+    margin: 0 0 1.5rem;
+    color: red;
+}
+
+h3 {
+    margin: 1.5rem 0 1.5rem;
+}
+
+h4 {
+    margin: 1.5rem 0 .5rem;
+}
+
+p, ul, ol, li {
+    margin: 0 0 1rem;
+}
+
+li ul, li ol {
+    margin-top: 1rem;
+}
+
+.text-field {
+    border: .05rem solid #d0d0d0;
+    background-color: #f0f0f0;
+    margin: 0 0 1rem;
+    padding: 1rem 1rem 0;
+    width: fit-content;
+}
+
+.text-field ul, .text-field ol {
+    padding-left: 1.4rem;
+}
+
+table {
+    border-collapse: collapse;
+    border: .1rem solid #d0d0d0;
+}
+
+th, td {
+
+}
+
+th {
+    border: .1rem solid #d0d0d0;
+    background-color: #dcdcdc;
+    text-align: center;
+}
+
+td {
+
+}
+
+.board {
+    border-collapse: collapse;
+    box-shadow: .15rem .15rem 0.75rem #d0d0d0;
+    border: none;
+}
+
+.board th {
+    height: 3.5rem;
+    width: 3.5rem;
+    padding: 0;
+    text-align: center;
+    border: none;
+}
+
+.board .black {
+    background-color: #555;
+}
+
+.board .black {
+    background-color: #555;
+}
+
+.yellow {
+    background-color: yellow;
+    padding: 0px;
+    border: 0.5rem solid yellow;
+}
+
+
+.green {
+    background-color: green;
+    padding: 0px;
+    border: 0.5rem solid green;
+
+}
+
+.red {
+    background-color: red;
+    padding: 0px;
+    border: 0.5rem solid red;
+
+}
+
+.board .white {
+    background-color: #f0f0f0;
+}
+
+
+.board .board-border-left {
+    border-left: .1rem solid #d0d0d0;
+}
+
+.board .board-border-right {
+    border-right: .1rem solid #d0d0d0;
+}
+
+.board .board-border-top {
+    border-top: .1rem solid #d0d0d0;
+}
+
+.board .board-border-bottom {
+    border-bottom: .1rem solid #d0d0d0;
+}
+
+.board img {
+    height: 75%;
+    width: 75%;
+    vertical-align: middle;
+
+}
+
+.text-game {
+    float: right;
+    border: .05rem solid #d0d0d0;
+    background-color: #f0f0f0;
+    margin: 0 5rem 1rem;
+    padding: 5rem 5rem 0;
+    width: fit-content;
+}
+
+second-elem {
+    display: flex;
+}
+
+footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+footer section {
+    margin: 0 5rem;
+}
+
+footer a {
+    color: #000;
+}

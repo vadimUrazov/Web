@@ -1,0 +1,12 @@
+<svg width="1024" height="1024" xmlns="http://www.w3.org/2000/svg">
+
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <path stroke="null" transform="matrix(1,0,0,1,0,0) matrix(1,0,0,1,0,0) matrix(1,0,0,1,0,0) " id="svg_1" d="m512,0c282.77,0 512,229.23 512,512c0,282.77 -229.23,512 -512,512c-282.77,0 -512,-229.23 -512,-512c0,-282.77 229.23,-512 512,-512z" fill="rgb(0, 0, 0)" fill-rule="evenodd"/>
+  <path stroke="#000" id="svg_2" d="m48.647517,388.604679l363.252224,0l112.247733,-295.642497l112.247796,295.642497l363.252161,0l-293.876685,182.71502l112.253541,295.642497l-293.876813,-182.719996l-293.876749,182.719996l112.253573,-295.642497l-293.876781,-182.71502z" stroke-width="1.5" fill="#fff"/>
+ </g>
+</svg>

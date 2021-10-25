@@ -1,0 +1,199 @@
+<!DOCTYPE HTML>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="rating" content="General">
+    <link rel="stylesheet" href="basic.css">
+    <title>Checkers</title>
+</head>
+
+<body>
+<header>
+    <h1>Checkers</h1>
+
+</header>
+<nav>
+            	<span>
+	                <a href="Index.html">Menu</a>
+	                <a href="Rules.html">Rules</a>
+	                <a href="Game.html" class="current-page-link">Play</a>
+                </span>
+</nav>
+<main>
+    <h2>Game</h2>
+    <second-elem>
+        <table class="board">
+            <thead>
+            <tr>
+                <th></th>
+                <th>a</th>
+                <th>b</th>
+                <th>c</th>
+                <th>d</th>
+                <th>e</th>
+                <th>f</th>
+                <th>g</th>
+                <th>h</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th>8</th>
+                <td class="white a8 board-border-top board-border-left" id="a8"></td>
+                <td class="black b8 board-border-top" id="b8">
+                    <img onclick="onClickChecker('b11','b8')" src="black-checker.svg" id="b11">
+                </td>
+                <td class="white c8 board-border-top"></td>
+                <td class="black d8 board-border-top" id="d8">
+                    <img onclick="onClickChecker('b12','d8')" src="black-checker.svg" id="b12">
+                </td>
+                <td class="white e8 board-border-top"></td>
+                <td class="black f8 board-border-top" id="f8">
+                    <img onclick="onClickChecker('b13','f8')" src="black-checker.svg" id="b13"></td>
+                <td class="white g8 board-border-top"></td>
+                <td class="black h8 board-border-top board-border-right" id="h8">
+                    <img onclick="onClickChecker('b14','h8')" src="black-checker.svg" id="b14">
+                </td>
+                <th>8</th>
+            </tr>
+            <tr>
+                <th>7</th>
+                <td class="black a7 board-border-left" id="a7">
+                    <img onclick="onClickChecker('b21','a7')" src="black-checker.svg" id="b21">
+                </td>
+                <td class="white b7"></td>
+                <td class="black c7" id="c7">
+                    <img onclick="onClickChecker('b22','c7')" src="black-checker.svg" id="b22"></td>
+                <td class="white d7"></td>
+                <td class="black e7" id="e7">
+                    <img onclick="onClickChecker('b23','e7')" src="black-checker.svg" id="b23"></td>
+                <td class="white f7"></td>
+                <td class="black g7" id="g7">
+                    <img onclick="onClickChecker('b24','g7')" src="black-checker.svg" id="b24"></td>
+                <td class="white h7 board-border-right"></td>
+                <th>7</th>
+            </tr>
+            <tr>
+                <th>6</th>
+                <td class="white a6 board-border-left"></td>
+                <td class="black b6" id="b6"><img onclick="onClickChecker('b31','b6')" src="black-checker.svg" id="b31">
+                </td>
+                <td class="white c6"></td>
+                <td class="black d6" id="d6"><img onclick="onClickChecker('b32','d6')" src="black-checker.svg" id="b32">
+                </td>
+                <td class="white e6"></td>
+                <td class="black f6" id="f6"><img onclick="onClickChecker('b33','f6')" src="black-checker.svg" id="b33">
+                </td>
+                <td class="white g6"></td>
+                <td class="black h6 board-border-right" id="h6"><img onclick="onClickChecker('b34','h6')"
+                                                                     src="black-checker.svg" id="b34"></td>
+                <th>6</th>
+            </tr>
+            <tr>
+                <th>5</th>
+                <td class="black a5 board-border-left" id="a5"></td>
+                <td class="white b5"></td>
+                <td class="black c5" id="c5"></td>
+                <td class="white d5"></td>
+                <td class="black e5" id="e5"></td>
+                <td class="white f5"></td>
+                <td class="black g5" id="g5"></td>
+                <td class="white h5 board-border-right"></td>
+                <th>5</th>
+            </tr>
+            <tr>
+                <th>4</th>
+                <td class="white a4 board-border-left"></td>
+                <td class="black b4" id="b4"></td>
+                <td class="white c4 "></td>
+                <td class="black d4" id="d4"></td>
+                <td class="white e4"></td>
+                <td class="black f4" id="f4"></td>
+                <td class="white g4"></td>
+                <td class="black h4 board-border-right" id="h4"></td>
+                <th>4</th>
+            </tr>
+            <tr>
+                <th>3</th>
+                <td class="black a3 board-border-left" id="a3"><img onclick="onClickChecker('w11','a3')"
+                                                                    src="white-checker.svg" id="w11"></td>
+                <td class="white b3"></td>
+                <td class="black c3" id="c3"><img onclick="onClickChecker('w12','c3')" src="white-checker.svg" id="w12">
+                </td>
+                <td class="white d3 board"></td>
+                <td class="black e3" id="e3"><img onclick="onClickChecker('w13','e3')" src="white-checker.svg" id="w13">
+                </td>
+                <td class="white f3"></td>
+                <td class="black g3" id="g3"><img onclick="onClickChecker('w14','g3')" src="white-checker.svg" id="w14">
+                </td>
+                <td class="white h3 board-border-right"></td>
+                <th>3</th>
+            </tr>
+            <tr>
+                <th>2</th>
+                <td class="white a2 board-border-left"></td>
+                <td class="black b2" id="b2"><img onclick="onClickChecker('w21','b2')" src="white-checker.svg" id="w21">
+                </td>
+                <td class="white c2"></td>
+                <td class="black d2" id="d2"><img onclick="onClickChecker('w22','d2')" src="white-checker.svg" id="w22">
+                </td>
+                <td class="white e2"></td>
+                <td class="black f2" id="f2"><img onclick="onClickChecker('w23','f2')" src="white-checker.svg" id="w23">
+                </td>
+                <td class="white g2"></td>
+                <td class="black h2 board-border-right" id="h2"><img onclick="onClickChecker('w24','h2')"
+                                                                     src="white-checker.svg " id="w24"></td>
+                <th>2</th>
+            </tr>
+            <tr>
+                <th>1</th>
+                <td class="black a1 board-border-bottom board-border-left" id="a1"><img
+                        onclick="onClickChecker('w31','a1')" src="white-checker.svg"
+                        id="w31"></td>
+                <td class="white b1 board-border-bottom"></td>
+                <td class="black c1 board-border-bottom" id="c1"><img onclick="onClickChecker('w32','c1')"
+                                                                      src="white-checker.svg" id="w32"></td>
+                <td class="white d1 board-border-bottom"></td>
+                <td class="black e1 board-border-bottom" id="e1"><img onclick="onClickChecker('w33','e1')"
+                                                                      src="white-checker.svg" id="w33"></td>
+                <td class="white f1 board-border-bottom"></td>
+                <td class="black g1 board-border-bottom" id="g1"><img onclick="onClickChecker('w34','g1')"
+                                                                      src="white-checker.svg" id="w34"></td>
+                <td class="white h1 board-border-bottom board-border-right"></td>
+                <th>1</th>
+            </tr>
+            <tr>
+                <th></th>
+                <th>a</th>
+                <th>b</th>
+                <th>c</th>
+                <th>d</th>
+                <th>e</th>
+                <th>f</th>
+                <th>g</th>
+                <th>h</th>
+                <th></th>
+            </tr>
+            </tbody>
+        </table>
+        <div class="text-game">
+            <textarea></textarea>
+        </div>
+    </second-elem>
+    <button onclick="createButtonBegin()">Начало</button>
+    <button onclick="createButtonExample()">Пример 1</button>
+
+</main>
+
+<footer>
+    <section>
+        <p>&copy Уразов Вадим, 2021</p>
+        <p><a href="mailto:vadim.urazov.00@mail.ru?subject=Checkers">vadim.urazov.00@mail.ru</a></p>
+    </section>
+</footer>
+<script language="JavaScript" src="Condition.js"></script>
+<script language="JavaScript" src="Config.js"></script>
+</body>
+</html>
