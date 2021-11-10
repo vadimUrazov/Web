@@ -71,6 +71,10 @@ nav a:hover {
     visibility: visible;
 }
 
+.enter-hidden{
+    visibility: hidden;
+}
+
 .assign-game-hidden {
     margin-left: 78rem;
     margin-top: -41rem;

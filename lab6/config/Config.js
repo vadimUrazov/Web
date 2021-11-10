@@ -31,6 +31,10 @@ const CHECKER_TYPE = {
     WHITE: 1,
     WHITE_DAMKA: 2
 }
+const ERROR_TYPE = {
+    ERROR_SIN: 'синтаксическая ошибка при написании партии или координаты',
+    ERROR_LOGIC: 'логическая ошибка при выборе координаты'
+}
 const CHECKER_PIC = {
     [CHECKER_TYPE.BLACK]: '../img/black-checker.svg',
     [CHECKER_TYPE.BLACK_DAMKA]: '../img/black-damka.svg',
@@ -57,7 +61,7 @@ const enter = document.getElementById('enter')
 const panel = document.getElementById('panel-game')
 const panelError = document.getElementById('panel-error')
 const errContent = document.getElementById('err-content')
-buffer=moveListView
+buffer = moveListView
 
 const isPlayCell = (row, col) => (row + col) % 2 === 0
 
@@ -169,12 +173,13 @@ const renderMoveList = () => {
 
     if (whoseTurn === 'w') {
         const turnView = document.createElement('li')
-        turnView.appendChild(document.createTextNode(moveList.map(cell => cellToString(cell)).join(delimeter)))
+
+        turnView.appendChild(document.createTextNode(moveList.map(cell => cellToString(cell)).join(delimeter) + ";"))
         moveListView.appendChild(turnView)
     } else {
         const moveViews = moveListView.getElementsByTagName('li')
         const turnView = moveViews[moveViews.length - 1]
-        turnView.textContent += ' ' + moveList.map(cell => cellToString(cell)).join(delimeter)
+        turnView.textContent += ' ' + moveList.map(cell => cellToString(cell)).join(delimeter) + ";"
     }
 
     moveListView.scrollTop = moveListView.scrollHeight
@@ -422,6 +427,9 @@ const startArrangement = () => {
         for (let col = 0; col < BOARD_SIZE; col++)
             if (isPlayCell(row, col))
                 place(CHECKER_TYPE.BLACK, row, col)
+
+
+    enter.removeAttribute('class');
 }
 
 
@@ -610,71 +618,199 @@ const initialization = () => {
     cancelEnter.addEventListener('click', () => buttonsEnter(cancelEnterOnClick))
 
 }
-
+let errorParam;
 const printErrors = (errors, textArrangements) => {
     panelError.className = 'assign-error-show'
     for (let i = 0; i < textArrangements.length; i++) {
         for (let j = 0; j < errors.length; j++) {
             if (errors[j] === i) {
-                errContent.innerHTML = '<span class="err-place">' + textArrangements[i] + '</span>'
+                errContent.innerHTML = '<span class="err-place">' + errorParam + textArrangements[i] + '</span>'
                 break
             }
         }
     }
 }
-const whoIsChecker = ch => {
-    if (ch === 'w') {
-        return CHECKER_TYPE.WHITE
-    } else if (ch === 'b') {
-        return CHECKER_TYPE.BLACK
-    } else if (ch === 'wq') {
-        return CHECKER_TYPE.WHITE_DAMKA
-    } else if (ch === 'bq') {
-        return CHECKER_TYPE.BLACK_DAMKA
-    }
-}
-const enterArr = (type, row, col) => {
-    resetEverything()
-    place(type, row, col)
-    countCheckers()
-    calculateSituation()
-    renderEverything()
 
+const getRow = (coordRow) => {
+    let buf = coordRow.split("")
+
+    return (buf[1] - 1)
 }
-const setPos = lexem => {
-    let buf = lexem.split(":")
-    let coordinate = buf[1].split("")
+const getCol = (coordCol) => {
     const letters = 'abcdefgh'
-    let row = coordinate[1] - 1;
-    let col;
+    let col
+    let buf = coordCol.split("")
     for (let i = 0; i < letters.length; i++) {
-        if (letters[i] === coordinate[0]) {
+        if (letters[i] === buf[0]) {
             col = i
             break
         }
     }
-
-    enterArr(whoIsChecker(buf[0]), row, col)
+    return col
 }
 
-const setCheckersIntoArrangements = arrangements => {
-    for (let i = 0; i < arrangements.length; i++) {
-        setPos(arrangements[i])
-    }
+const validateWhiteMoves = (whiteMoves) => {
+    let from, to;
+    let lex;
 
-}
-let err = [];
-const showArrangementGame = () => {
-    let textArrangements = document.getElementById('text').value.split(";")
-    err = []
-    panelError.className = 'assign-error-hidden'
-    let errors = validateArrangements(textArrangements)
-    if (errors.length === 0) {
-        setCheckersIntoArrangements(textArrangements)
+    let buff = whiteMoves.split("-")
+    if (buff.length === 1) {
+        lex = whiteMoves.split(":")
     } else {
-        printErrors(errors, textArrangements)
+        lex = buff
+    }
+    from = lex[0]
+    to = lex[1]
+    let fromCol = getCol(from)
+    let fromRow = getRow(from)
+    let toRow = getRow(to)
+    let toCol = getCol(to)
+
+    cellOnClickEnter(fromRow, fromCol)
+    cellOnClickEnter(toRow, toCol)
+    finishOnClickEnter()
+
+}
+const finishOnClickEnter = () => {
+    if (moveList.length === 0 || inPromptMode !== null)
+        return
+
+    renderMoveList()
+    moveList = []
+    becomeDamka = false
+
+    for (cell of killed) {
+        const {row, col} = cell
+        clearChecker(row, col)
+        BOARD[row][col].state = CELL_STATE.DEFAULT
+        renderCell(row, col)
     }
 
+    if (whoseTurn === 'w')
+        blackCounter -= killed.length
+    else
+        whiteCounter -= killed.length
+
+    killed = []
+
+    toggleTurn()
+    renderStatus()
+
+    buttonsVisible = false
+
+}
+
+const cellOnClickEnter = (row, col) => {
+    let changedCells
+    let targetCell = BOARD[row][col]
+
+    if (inPromptMode === null || (moveList.length === 0 && inPromptMode === targetCell))
+        changedCells = togglePromptMode(targetCell)
+
+    else if (targetCell.state === CELL_STATE.CAN_BE_FILLED) {
+        moveList = [inPromptMode]
+        changedCells = togglePromptMode(inPromptMode)
+        move(moveList[0].row, moveList[0].col, row, col)
+        moveList[1] = targetCell
+
+        makeDamka(targetCell)
+    } else if (targetCell.state === CELL_STATE.MUST_BE_FILLED) {
+        const wasInPromptMode = inPromptMode
+        changedCells = togglePromptMode(inPromptMode)
+        move(wasInPromptMode.row, wasInPromptMode.col, row, col)
+
+        if (moveList.length === 0)
+            moveList = [wasInPromptMode]
+        moveList.push(BOARD[row][col])
+
+        makeDamka(targetCell)
+
+        const killedCell = SITUATION.get(BOARD[wasInPromptMode.row][wasInPromptMode.col]).filter(dest => dest.dest.row === row && dest.dest.col === col)[0].foe
+        killedCell.state = CELL_STATE.KILLED
+        changedCells.push(killedCell)
+        killed.push(killedCell)
+
+        calculateSituation()
+        changedCells = changedCells.concat(togglePromptMode(targetCell))
+    } else {
+        panelError.className = 'assign-error-show'
+        errorParam = ERROR_TYPE.ERROR_LOGIC + ":"
+        errContent.innerHTML = '<span class="err-place">' + errorParam + cellToString(targetCell) + '</span>'
+        throw ERROR_TYPE.ERROR_LOGIC
+    }
+
+    buttonsVisible = (moveList.length !== 0)
+
+    changedCells?.forEach(cell => renderCell(cell.row, cell.col))
+
+}
+const validateBlackMoves = (blackMoves) => {
+    let from, to;
+    let lex;
+    let buff = blackMoves.split("-")
+    if (buff.length === 1) {
+        lex = blackMoves.split(":")
+    } else {
+        lex = buff
+    }
+    from = lex[0]
+    to = lex[1]
+    let fromCol = getCol(from)
+    let fromRow = getRow(from)
+    let toRow = getRow(to)
+    let toCol = getCol(to)
+
+    cellOnClickEnter(fromRow, fromCol)
+    cellOnClickEnter(toRow, toCol)
+    finishOnClickEnter()
+
+}
+const setCheckersIntoArrangements = arrangements => {
+    if (arrangements.length === 1) {
+        validateWhiteMoves(arrangements[0])
+
+    } else {
+        for (let i = 0; i < arrangements.length; i++) {
+            if (whoseTurn === 'w') {
+                validateWhiteMoves(arrangements[0])
+            } else if (whoseTurn === 'b') {
+                validateBlackMoves(arrangements[1])
+            }
+        }
+
+    }
+}
+
+const substringBegin = (string) => {
+    let array = string.split(".")
+    let buf = array[1].split(";")
+    let res = []
+    for (let i = 0; i < buf.length; i++) {
+        if (buf[i] !== "") {
+            res.push(buf[i].trim())
+        }
+
+    }
+
+    return res
+}
+let err = []
+const showArrangementGame = () => {
+    panelError.className = 'assign-error-hidden'
+    let positions;
+
+    let textArrangements = document.getElementById('text').value.split("\n")
+    for (let i = 0; i < textArrangements.length; i++) {
+        positions = substringBegin(textArrangements[i])
+        let errors = validateArrangements(positions)
+        if (errors.length === 0) {
+            setCheckersIntoArrangements(positions)
+        } else {
+            printErrors(errors, positions)
+            break
+        }
+
+    }
 
 }
 const validateArrangements = textArrangements => {
@@ -699,20 +835,32 @@ let cells = ['a1', 'c1', 'e1', 'g1',
     'a7', 'c7', 'e7', 'g7',
     'b8', 'd8', 'f8', 'h8'
 ]
-const validateLex = arrangement => {
-    let lex = arrangement.split(":")
-    if (lex.length === 1 || lex.length > 2) {
+const checkSyntaxArrangements = arrangement => {
+    let lex;
+    let buff = arrangement.split("-")
+    if (buff.length === 1) {
+        lex = arrangement.split(":")
+    } else {
+        lex = buff
+    }
+    if (lex.length === 1) {
         return false
     }
-    let buf = lex[1].split("")
-    let symbol = "abcdefgh"
-    let numb = "12345678"
-    if (lex[0] !== 'w' && lex[0] !== 'b' && lex[0] !== 'wq' && lex[0] !== 'bq') {
-        return false
-    } else if (symbol.search(buf[0]) === -1 || numb.search(buf[1]) === -1) {
-        return false
-    } else if (cells.indexOf(lex[1]) === -1) {
-        return false
+
+    for (let i = 0; i < lex.length; i++) {
+        if (cells.indexOf(lex[i]) === -1) {
+            return false
+        }
+    }
+
+
+    return true
+}
+
+const validateLex = arrangement => {
+    if (!checkSyntaxArrangements(arrangement)) {
+        errorParam = ERROR_TYPE.ERROR_SIN + ":"
+        return false;
     }
 
     return true
@@ -722,20 +870,12 @@ const cancelEnterOnClick = () => {
     buttonsEnt = true
     panel.className = 'assign-game-hidden'
     panelError.className = 'assign-error-hidden'
-    err=[]
-    for (let row = 0; row < BOARD_SIZE; row++){
-        for (let col = 0; col < BOARD_SIZE; col++) {
-            if (isPlayCell(row, col)) {
-                clearChecker(row, col)
-                BOARD_VIEW[row][col].state = CELL_STATE.DEFAULT
-                renderCell(row, col)
-            }
-        }}
+    err = []
+
 }
 
 const enterButtonOnClick = () => {
 
-    err = null
     buttonsEnt = false
     panel.className = 'assign-game-show'
 
