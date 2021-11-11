@@ -466,7 +466,7 @@ const countCheckers = () => {
 }
 
 const resetEverything = () => {
-    let cells=["a5","c5","e5","g5","b4","d4","f4","h4"]
+    let cells = ["a5", "c5", "e5", "g5", "b4", "d4", "f4", "h4"]
     for (let row = 0; row < BOARD_SIZE; row++)
         for (let col = 0; col < BOARD_SIZE; col++)
             if (isPlayCell(row, col))
@@ -480,10 +480,10 @@ const resetEverything = () => {
     whoseTurn = 'w'
     buttonsVisible = false
     for (let i = 0; i < cells.length; i++) {
-        let row=getRow(cells[i]);
-        let col=getCol(cells[i]);
+        let row = getRow(cells[i]);
+        let col = getCol(cells[i]);
         BOARD[row][col].state = CELL_STATE.DEFAULT
-        clearChecker(row,col)
+        clearChecker(row, col)
     }
 
 }
