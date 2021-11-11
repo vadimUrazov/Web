@@ -625,6 +625,7 @@ const initialization = () => {
     cancelEnter.addEventListener('click', () => buttonsEnter(cancelEnterOnClick))
 
 }
+
 let errorParam;
 const printErrors = (errors, textArrangements) => {
     panelError.className = 'assign-error-show'
