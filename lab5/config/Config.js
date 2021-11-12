@@ -60,7 +60,7 @@ const hasChecker = (row, col) => BOARD[row][col]?.checker != null
 const renderChecker = (row, col) => {
     const checker = BOARD[row][col].checker
 
-    BOARD_VIEW[row][col].innerHTML = checker == null? '' : '<img src="' + CHECKER_PIC[checker.type] + '">'
+    BOARD_VIEW[row][col].innerHTML = checker == null ? '' : '<img src="' + CHECKER_PIC[checker.type] + '">'
 }
 
 
@@ -107,7 +107,7 @@ const renderBoard = () => {
 
 
 const toggleTurn = () => {
-    whoseTurn = whoseTurn === 'w'? 'b' : 'w'
+    whoseTurn = whoseTurn === 'w' ? 'b' : 'w'
 
     calculateSituation()
 }
@@ -115,10 +115,10 @@ const toggleTurn = () => {
 
 const renderStatus = () => {
     if (whiteCounter === 0 || blackCounter === 0)
-        statusStr.innerText = 'Win ' + (whoseTurn === 'w'? 'black' : 'white')
+        statusStr.innerText = 'Win ' + (whoseTurn === 'w' ? 'black' : 'white')
 
     else
-        statusStr.innerText = 'Move ' + (whoseTurn === 'w'? 'white' : 'black')
+        statusStr.innerText = 'Move ' + (whoseTurn === 'w' ? 'white' : 'black')
 }
 
 
@@ -126,9 +126,7 @@ const renderButtons = () => {
     if (buttonsVisible) {
         cancel.removeAttribute('class')
         finish.removeAttribute('class')
-    }
-
-    else {
+    } else {
         cancel.className = 'hidden'
         finish.className = 'hidden'
     }
@@ -143,15 +141,13 @@ const cellToString = cell => {
 
 
 const renderMoveList = () => {
-    const delimeter = killed.length === 0? '-' : ':'
+    const delimeter = killed.length === 0 ? '-' : ':'
 
     if (whoseTurn === 'w') {
         const turnView = document.createElement('li')
         turnView.appendChild(document.createTextNode(moveList.map(cell => cellToString(cell)).join(delimeter)))
         moveListView.appendChild(turnView)
-    }
-
-    else {
+    } else {
         const moveViews = moveListView.getElementsByTagName('li')
         const turnView = moveViews[moveViews.length - 1]
         turnView.textContent += ' ' + moveList.map(cell => cellToString(cell)).join(delimeter)
@@ -212,7 +208,7 @@ const iterator = (row, col, rowDir, colDir) => {
             row += rowDir
             col += colDir
 
-            return (row > -1 && row < BOARD_SIZE && col > -1 && col < BOARD_SIZE)?
+            return (row > -1 && row < BOARD_SIZE && col > -1 && col < BOARD_SIZE) ?
                 {value: {row: row, col: col}, done: false} :
                 {done: true}
         }
@@ -229,7 +225,7 @@ const calculateSituation = () => {
         for (let col = 0; col < BOARD_SIZE; col++) {
             if (!isTurnOf(row, col))
                 continue
-            
+
             const type = BOARD[row][col].checker.type
 
             if (type === CHECKER_TYPE.WHITE_DAMKA || type === CHECKER_TYPE.BLACK_DAMKA)
@@ -244,20 +240,16 @@ const calculateSituation = () => {
                             if (foe !== null) {
                                 addToSituation(BOARD[row][col], BOARD[rowTo][colTo], CELL_STATE.MUST_BE_FILLED, foe)
                                 foundMustBeFilled = true
-                            }
-
-                            else if (!foundMustBeFilled)
+                            } else if (!foundMustBeFilled)
                                 addToSituation(BOARD[row][col], BOARD[rowTo][colTo], CELL_STATE.CAN_BE_FILLED)
-                        }
-
-                        else if (foe === null && areFoes(row, col, rowTo, colTo))
+                        } else if (foe === null && areFoes(row, col, rowTo, colTo))
                             foe = BOARD[rowTo][colTo]
 
                         else
                             break
 
                         res = it.next()
-                    } 
+                    }
                 }
 
             else {
@@ -292,9 +284,7 @@ const calculateSituation = () => {
 
                         if (col < BOARD_SIZE - 1 && !hasChecker(row + 1, col + 1))
                             addToSituation(BOARD[row][col], BOARD[row + 1][col + 1], CELL_STATE.CAN_BE_FILLED)
-                    }
-
-                    else if (isBlack(row, col) && row > 0) {
+                    } else if (isBlack(row, col) && row > 0) {
                         if (col > 0 && !hasChecker(row - 1, col - 1))
                             addToSituation(BOARD[row][col], BOARD[row - 1][col - 1], CELL_STATE.CAN_BE_FILLED)
 
@@ -330,9 +320,7 @@ const togglePromptMode = cell => {
 
         for (dest of dests)
             dest.dest.state = CELL_STATE.DEFAULT
-    }
-
-    else if (inPromptMode === null && (moveList.length === 0 || (killed.length !== 0 && dests.length !== 0))) {
+    } else if (inPromptMode === null && (moveList.length === 0 || (killed.length !== 0 && dests.length !== 0))) {
         inPromptMode = cell
         cell.state = CELL_STATE.PROMPT
 
@@ -351,9 +339,7 @@ const makeDamka = cell => {
     if (whoseTurn === 'w' && cell.row === BOARD_SIZE - 1) {
         cell.checker.type = CHECKER_TYPE.WHITE_DAMKA
         becomeDamka = true
-    }
-
-    else if (whoseTurn === 'b' && cell.row === 0) {
+    } else if (whoseTurn === 'b' && cell.row === 0) {
         cell.checker.type = CHECKER_TYPE.BLACK_DAMKA
         becomeDamka = true
     }
@@ -374,9 +360,7 @@ const cellOnClick = (row, col) => {
         moveList[1] = targetCell
 
         makeDamka(targetCell)
-    }
-
-    else if (targetCell.state === CELL_STATE.MUST_BE_FILLED) {
+    } else if (targetCell.state === CELL_STATE.MUST_BE_FILLED) {
         const wasInPromptMode = inPromptMode
         changedCells = togglePromptMode(inPromptMode)
         move(wasInPromptMode.row, wasInPromptMode.col, row, col)
@@ -432,6 +416,23 @@ const example1Arrangement = () => {
     place(CHECKER_TYPE.BLACK, 6, 4)
     place(CHECKER_TYPE.BLACK, 5, 7)
 }
+const getRow = (coordRow) => {
+    let buf = coordRow.split("")
+
+    return (buf[1] - 1)
+}
+const getCol = (coordCol) => {
+    const letters = 'abcdefgh'
+    let col
+    let buf = coordCol.split("")
+    for (let i = 0; i < letters.length; i++) {
+        if (letters[i] === buf[0]) {
+            col = i
+            break
+        }
+    }
+    return col
+}
 
 
 const countCheckers = () => {
@@ -450,6 +451,7 @@ const countCheckers = () => {
 
 
 const resetEverything = () => {
+    let cells = ["a5", "c5", "e5", "g5", "b4", "d4", "f4", "h4"]
     for (let row = 0; row < BOARD_SIZE; row++)
         for (let col = 0; col < BOARD_SIZE; col++)
             if (isPlayCell(row, col))
@@ -462,6 +464,13 @@ const resetEverything = () => {
     killed = []
     whoseTurn = 'w'
     buttonsVisible = false
+    for (let i = 0; i < cells.length; i++) {
+        let row = getRow(cells[i]);
+        let col = getCol(cells[i]);
+        BOARD[row][col].state = CELL_STATE.DEFAULT
+        clearChecker(row, col)
+    }
+
 }
 
 
@@ -486,7 +495,7 @@ const cancelOnClick = () => {
     if (moveList.length === 0 && inPromptMode === null)
         return
 
-    const curCell = moveList.length === 0? inPromptMode : moveList[moveList.length - 1]
+    const curCell = moveList.length === 0 ? inPromptMode : moveList[moveList.length - 1]
 
     SITUATION.get(curCell)?.forEach(dest => {
         dest.dest.state = CELL_STATE.DEFAULT
@@ -495,7 +504,7 @@ const cancelOnClick = () => {
 
     if (moveList.length !== 0) {
         if (becomeDamka) {
-            curCell.checker.type = whoseTurn === 'w'? CHECKER_TYPE.WHITE : CHECKER_TYPE.BLACK
+            curCell.checker.type = whoseTurn === 'w' ? CHECKER_TYPE.WHITE : CHECKER_TYPE.BLACK
             becomeDamka = false
         }
 
@@ -507,9 +516,7 @@ const cancelOnClick = () => {
         renderCell(curCell.row, curCell.col)
 
         moveList = []
-    }
-
-    else {
+    } else {
         inPromptMode.state = CELL_STATE.DEFAULT
         renderCell(inPromptMode.row, inPromptMode.col)
     }
@@ -539,7 +546,7 @@ const finishOnClick = () => {
     renderMoveList()
     moveList = []
     becomeDamka = false
-    
+
     for (cell of killed) {
         const {row, col} = cell
         clearChecker(row, col)
@@ -583,7 +590,7 @@ const initialization = () => {
             const row = BOARD_SIZE - 1 - Math.floor(index / BOARD_SIZE)
 
             arr[row] = arr[row] || []
-            arr[row].push(isPlayCell(row, col)? cell : null)
+            arr[row].push(isPlayCell(row, col) ? cell : null)
 
             col = (++col) % BOARD_SIZE
 
