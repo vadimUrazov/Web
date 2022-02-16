@@ -1,3 +1,4 @@
+
 const BOARD_SIZE = 8
 const BOARD = Array.from(Array(BOARD_SIZE), () => Array(BOARD_SIZE))
 let BOARD_VIEW

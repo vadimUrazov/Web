@@ -20,5 +20,4 @@ public class GameController {
     public String index() {
         return "index";
     }
-
 }
