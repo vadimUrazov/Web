@@ -1,10 +1,10 @@
 <!DOCTYPE HTML>
-<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="rating" content="General">
-    <link rel="stylesheet" href="../styles/basic.css">
+    <link rel="stylesheet" th:href="@{../styles/basic.css}">
     <title>Checkers</title>
 </head>
 
@@ -14,9 +14,9 @@
 </header>
 
 <nav>
-    <div><a href="Index.html">Menu</a></div>
-    <div><a href="Rules.html" class="current-page-link">Rules</a></div>
-    <div><a href="Game.html">Rules</a></div>
+    <div><a th:href="@{/index}" class="current-page-link">Menu</a></div>
+    <div><a th:href="@{/rules}">Rules</a></div>
+    <div><a th:href="@{/game}">Play</a></div>
 </nav>
 
 <main>
@@ -127,14 +127,27 @@
                 (например, f4‐g5). При&nbsp;записи взятия (боя) вместо&nbsp;тире ставится&nbsp;двоеточие. Запись&nbsp;f4:h6
                 означает ход с&nbsp;поля&nbsp;f4 на&nbsp;h6 со&nbsp;взятием шашки, стоящей на&nbsp;поле&nbsp;g5, а&nbsp;f4:h6:f8:c5:g1&nbsp;—
                 ход со&nbsp;взятием четырёх&nbsp;шашек.</p>
+            <p>Пользователь может задавать расстановку шашек, но с соблюдением правил игры и обозначений для расстановки.</p>
+
         </section>
 
         <section>
             <p>Пример записи начала партии:</p>
             <div class="text-field">
                 <ol>
-                    <li>e3‐d4 d6‐c5</li>
-                    <li>g3‐f4?? c5:e3:g5</li>
+                    <li>1.e3-d4;d6-c5;</li>
+                    <li>2.g3‐f4;b6-a5;</li>
+                </ol>
+            </div>
+        </section>
+
+        <section>
+            <p>Пример записи расстановки:</p>
+
+            <div class="text-arr">
+                <ol>
+                    <li>1.e3‐d4;d6‐c5;</li>
+                    <li>2.g3‐f4;b6-a5;</li>
                 </ol>
             </div>
         </section>

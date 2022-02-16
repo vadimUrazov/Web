@@ -1,10 +1,10 @@
 <!DOCTYPE HTML>
-<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="rating" content="General">
-    <link rel="stylesheet" href="../styles/basic.css">
+    <link rel="stylesheet" th:href="@{../styles/basic.css}">
     <title>Checkers</title>
 </head>
 
@@ -14,9 +14,9 @@
 </header>
 
 <nav>
-    <div><a href="Index.html">Menu</a></div>
-    <div><a href="Rules.html">Rules</a></div>
-    <div><a href="Game.html" class="current-page-link">Play</a></div>
+    <div><a th:href="@{/index}">Menu</a></div>
+    <div><a th:href="@{/rules}">Rules</a></div>
+    <div><a th:href="@{/game}" class="current-page-link">Play</a></div>
 </nav>
 
 <main>
@@ -152,6 +152,7 @@
             <div class="buttons">
                 <button id="start">Начало</button>
                 <button id="example1">Пример 1</button>
+                <button id="enter" class="enter-hidden">Ввести партию</button>
                 <button id="cancel-turn">Отменить ход</button>
                 <button id="finish-turn">Завершить ход</button>
             </div>
@@ -163,6 +164,21 @@
             </ol>
         </article>
     </div>
+    <div class="assign-game-hidden" id="panel-game">
+        <h3>Match</h3>
+        <textarea rows="27" cols="25" id="text"></textarea>
+        <button id="cancel-enter">Отменить ввод</button>
+        <button id="show-game">Показать</button>
+
+    </div>
+    <div class="assign-error-hidden" id="panel-error">
+        <h3>Ошибки</h3>
+        <div id="err-content">
+        </div>
+
+    </div>
+
+
 </main>
 
 <footer>
@@ -172,6 +188,6 @@
     </section>
 </footer>
 
-<script src="../config/Config.js" defer></script>
+<script th:src="@{/config/config.js}" defer></script>
 </body>
 </html>
