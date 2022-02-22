@@ -1,4 +1,3 @@
-
 const BOARD_SIZE = 8
 const BOARD = Array.from(Array(BOARD_SIZE), () => Array(BOARD_SIZE))
 let BOARD_VIEW
@@ -36,11 +35,25 @@ const ERROR_TYPE = {
     ERROR_SIN: 'синтаксическая ошибка при написании партии или координаты',
     ERROR_LOGIC: 'логическая ошибка при выборе координаты'
 }
+
+function f() {
+    var base = document.getElementsByTagName('base')[0];
+    if (base && base.href && (base.href.length > 0)) {
+        base = base.href;
+    } else {
+        base = document.URL;
+    }
+    return base.substr(0,
+        base.indexOf("/", base.indexOf("/", base.indexOf("//") + 2) + 1));
+}
+
+var contextPath = f().substr(21, f().length);
+
 const CHECKER_PIC = {
-    [CHECKER_TYPE.BLACK]: '../img/black-checker.svg',
-    [CHECKER_TYPE.BLACK_DAMKA]: '../img/black-damka.svg',
-    [CHECKER_TYPE.WHITE]: '../img/white-checker.svg',
-    [CHECKER_TYPE.WHITE_DAMKA]: '../img/white-damka.svg'
+    [CHECKER_TYPE.BLACK]: contextPath + '/img/black-checker.svg',
+    [CHECKER_TYPE.BLACK_DAMKA]: contextPath + '/img/black-damka.svg',
+    [CHECKER_TYPE.WHITE]: contextPath + '/img/white-checker.svg',
+    [CHECKER_TYPE.WHITE_DAMKA]: contextPath + '/img/white-damka.svg'
 }
 const CHECKER_COLOR = {
     [CHECKER_TYPE.BLACK]: 'b',

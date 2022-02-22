@@ -1,33 +1,34 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" lang="ru">
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="rating" content="General">
-        <link rel="stylesheet" th:href="@{../styles/basic.css}">
-        <title>Checkers</title>
-    </head>
-    <body>
-        <header>
-            <a href="#"><h1>Checkers</h1></a>
-        </header>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="rating" content="General">
+    <link rel="stylesheet"  th:href="@{/styles/basic.css}">
 
-        <nav>
-            <div><a th:href="@{/index}" class="current-page-link">Menu</a></div>
-            <div><a th:href="@{/rules}">Rules</a></div>
-            <div><a th:href="@{/game}">Play</a></div>
-        </nav>
+    <title>Checkers</title>
+</head>
+<body>
+<header>
+    <a href="#"><h1>Checkers</h1></a>
+</header>
 
-        <main>
-            <h2>Welcome to Checkers!</h2>
-        </main>
+<nav>
+    <div><a th:href="@{/index}" class="current-page-link">Menu</a></div>
+    <div><a th:href="@{/rules}">Rules</a></div>
+    <div><a th:href="@{/game}">Play</a></div>
+</nav>
 
-        <footer>
-            <section>
-                <p>&copy Уразов Вадим, 2021</p>
-                <p><a href="mailto:vadim.urazov.00@mail.ru?subject=Checkers">vadim.urazov.00@mail.ru</a></p>
-            </section>
-        </footer>
-    </body>
+<main>
+    <h2>Welcome to Checkers!</h2>
+</main>
+
+<footer>
+    <section>
+        <p>&copy Уразов Вадим, 2021</p>
+        <p><a href="mailto:vadim.urazov.00@mail.ru?subject=Checkers">vadim.urazov.00@mail.ru</a></p>
+    </section>
+</footer>
+</body>
 </html>
